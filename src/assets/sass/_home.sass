@@ -2,6 +2,8 @@
   overflow-x: scroll
   th
     white-space: nowrap !important
+  .t-selected
+    width: 30px
   .t-element, .t-pattern, .t-cost, .t-level
     width: 50px !important
   .t-gene, .t-skill
@@ -9,6 +11,24 @@
   .t-type
     width: 65px
   .t-monster
-    width: 100px
+    width: 350px
   .t-description
     width: 250px
+
+.table-selected,
+.table-selected > th,
+.table-selected > td
+  background-color: rgba(0, 123, 255, 0.2) !important
+
+.table-selected th,
+.table-selected td,
+.table-selected thead th,
+.table-selected tbody + tbody
+  border-color: #7abaff !important
+
+.table-hover .table-selected:hover
+  background-color: #9fcdff !important
+
+.table-hover .table-selected:hover > td,
+.table-hover .table-selected:hover > th
+  background-color: #9fcdff !important

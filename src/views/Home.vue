@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <b-container fluid>
     <b-card-title
       class="
         d-flex
@@ -17,47 +17,88 @@
 
     <hr />
 
-    <b-row class="py-2">
-      <b-col sm="6">
-        <b-form-group label="屬性">
-          <b-form-checkbox-group
-            v-model="element"
-            :options="elements"
-          ></b-form-checkbox-group>
-        </b-form-group>
-      </b-col>
+    <div class="py-2">
+      <b-row>
+        <b-col sm="6">
+          <b-form-group label="屬性">
+            <b-form-checkbox-group v-model="element">
+              <b-form-checkbox v-for="ele in elements" :key="ele" :value="ele">
+                {{ ele }}屬性
+              </b-form-checkbox>
+            </b-form-checkbox-group>
+          </b-form-group>
+        </b-col>
 
-      <b-col sm="6">
-        <b-form-group label="類型">
-          <b-form-checkbox-group
-            v-model="pattern"
-            :options="patterns"
-          ></b-form-checkbox-group>
-        </b-form-group>
-      </b-col>
+        <b-col sm="6">
+          <b-form-group label="類型">
+            <b-form-checkbox-group v-model="pattern" :options="patterns">
+            </b-form-checkbox-group>
+          </b-form-group>
+        </b-col>
 
-      <b-col sm="6">
-        <b-form-group label="隨行獸">
-          <b-form-input v-model="monster" list="monsters-list"></b-form-input>
-          <datalist id="monsters-list">
-            <option v-for="(item, index) in monsters" :key="index">
-              {{ item }}
-            </option>
-          </datalist>
-        </b-form-group>
-      </b-col>
+        <b-col sm="6">
+          <b-form-group label="隨行獸">
+            <b-form-input v-model="monster" list="monsters-list"></b-form-input>
+            <datalist id="monsters-list">
+              <option v-for="(item, index) in monsters" :key="index">
+                {{ item }}
+              </option>
+            </datalist>
+          </b-form-group>
+        </b-col>
 
-      <b-col sm="6">
-        <b-form-group label="基因">
-          <b-form-input v-model="gene" list="genes-list"></b-form-input>
-          <datalist id="genes-list">
-            <option v-for="(item, index) in genes" :key="index">
-              {{ item }}
-            </option>
-          </datalist>
-        </b-form-group>
-      </b-col>
-    </b-row>
+        <b-col sm="6">
+          <b-form-group label="基因">
+            <b-form-input v-model="gene" list="genes-list"></b-form-input>
+            <datalist id="genes-list">
+              <option v-for="(item, index) in genes" :key="index">
+                {{ item }}
+              </option>
+            </datalist>
+          </b-form-group>
+        </b-col>
+
+        <b-col sm="3">
+          <b-button size="sm" variant="primary" block @click="selectByFilter()">
+            全選(依篩選)
+          </b-button>
+        </b-col>
+
+        <b-col sm="3" class="mt-3 mt-sm-0">
+          <b-button size="sm" variant="danger" block @click="selectClear()">
+            清空選擇
+          </b-button>
+        </b-col>
+
+        <b-col sm="3" class="mt-3 mt-sm-0">
+          <b-button v-b-modal.modal-monster size="sm" variant="success" block>
+            基因清單(依魔物)
+          </b-button>
+        </b-col>
+      </b-row>
+
+      <b-modal
+        id="modal-monster"
+        title="基因清單(依魔物)"
+        no-close-on-backdrop
+        ok-only
+        ok-title="關閉"
+        ok-variant="secondary"
+      >
+        <div v-if="groupByMonster.length === 0">目前沒有選擇任何基因！</div>
+        <b-list-group v-else>
+          <b-list-group-item v-for="(item, i) in groupByMonster" :key="i">
+            <div class="text-primary">{{ item.monster }}</div>
+            <hr />
+            <div>
+              <div v-for="(gene, j) in item.genes" :key="j">
+                {{ gene.element }}屬性 / {{ gene.pattern }} / {{ gene.gene }}
+              </div>
+            </div>
+          </b-list-group-item>
+        </b-list-group>
+      </b-modal>
+    </div>
 
     <div class="gene-table mt-3 small">
       <b-table
@@ -65,12 +106,19 @@
         :items="filterData"
         :current-page="currentPage"
         :per-page="perPage"
+        @row-clicked="onRowSelected"
         fixed
         striped
         hover
         small
         responsive
-      ></b-table>
+      >
+        <template #cell(selected)="{ item }">
+          <b-form-group>
+            <b-form-checkbox v-model="data[item.index].selected" />
+          </b-form-group>
+        </template>
+      </b-table>
     </div>
 
     <div>
@@ -78,7 +126,6 @@
         v-model="currentPage"
         :total-rows="filterData.length"
         :per-page="perPage"
-        aria-controls="my-table"
       ></b-pagination>
     </div>
   </b-container>
@@ -104,8 +151,13 @@ export default {
     "org-auth": () => import("../components/org-auth.vue"),
   },
   computed: {
-    data() {
-      return this.$store.state.data;
+    data: {
+      get() {
+        return this.$store.state.data;
+      },
+      set(value) {
+        this.$store.commit("updateData", value);
+      },
     },
     monsters() {
       return this.$store.state.monsters;
@@ -113,8 +165,36 @@ export default {
     genes() {
       return this.$store.state.genes;
     },
+    groupByMonster() {
+      let obj = {};
+      this.data
+        .filter((el) => el.selected)
+        .forEach((el) => {
+          const { element, pattern, gene, skill, monster_list, rank } = el;
+          monster_list.forEach((m) => {
+            const monster = m + (rank === null ? "" : "(上位)");
+            if (obj[monster] === undefined) {
+              obj[monster] = { monster: monster, genes: [] };
+            }
+            obj[monster].genes.push({
+              element: element,
+              pattern: pattern,
+              gene: gene,
+              skill: skill,
+            });
+          });
+        });
+      return Object.values(obj).sort((a, b) => {
+        return a.genes.length < b.genes.length ? 1 : -1;
+      });
+    },
     fields() {
       return [
+        {
+          key: "selected",
+          label: "#",
+          thClass: "t-selected",
+        },
         {
           key: "element",
           label: "屬性",
@@ -159,21 +239,6 @@ export default {
           thClass: "t-skill",
         },
         {
-          key: "monster",
-          label: "隨行獸",
-          formatter: (value, key, item) => {
-            return value + (item.rank !== null ? "(上位)" : "");
-          },
-          sortable: true,
-          sortByFormatted: true,
-          thClass: "t-monster",
-          filter: (value) => {
-            return this.monster === ""
-              ? true
-              : value.indexOf(this.monster) > -1;
-          },
-        },
-        {
           key: "level",
           label: "等級",
           sortable: true,
@@ -191,15 +256,49 @@ export default {
           sortable: true,
           thClass: "t-description",
         },
+        {
+          key: "monster",
+          label: "隨行獸",
+          formatter: (value, key, item) => {
+            return value + (item.rank !== null ? "(上位)" : "");
+          },
+          sortable: true,
+          sortByFormatted: true,
+          thClass: "t-monster",
+          filter: (value) => {
+            return this.monster === ""
+              ? true
+              : value.indexOf(this.monster) > -1;
+          },
+        },
       ];
     },
     filterData() {
-      return this.data.filter((el) => {
-        return this.customFilter(el);
-      });
+      return this.data
+        .filter((el) => {
+          return this.customFilter(el);
+        })
+        .map((el) => {
+          return { ...el, _rowVariant: el.selected ? "selected" : "" };
+        });
     },
   },
   methods: {
+    onRowSelected(items) {
+      const { selected, index } = items;
+      this.data[index].selected = !selected;
+    },
+    selectByFilter() {
+      this.filterData.forEach((el) => {
+        this.onRowSelected(el);
+      });
+    },
+    selectClear() {
+      this.data = this.data.map((el) => {
+        el.selected = false;
+        return el;
+      });
+    },
     customFilter(item) {
       return this.fields.reduce((acc, cur) => {
         const { key, filter } = cur;

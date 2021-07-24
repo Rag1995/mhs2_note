@@ -36,19 +36,20 @@ def toJson():
     return x.replace(" ", "").replace("\n", "、").split("、")
   #
   df = pd.read_pickle(fold_path+"/python/data.pkl")
-  df["monster"] = df["monster"].apply(lambda x: monster_str(x))
-  df = df.explode("monster")
+  df["monster_list"] = df["monster"].apply(lambda x: monster_str(x))
+  df["monster"] = df["monster_list"].apply(lambda x: ", ".join(x))
   #
   with open(fold_path+"/data/data.json", "w", encoding="UTF8") as file:
     df.to_json(file, orient="records", force_ascii=False)
   #
-  monters = df.sort_values(by='monster', ascending=False)["monster"].drop_duplicates()
-  with open(fold_path+"/data/monsters.json", "w", encoding="UTF8") as file:
-    monters.to_json(file, orient="records", force_ascii=False)
-  #
   genes = df.sort_values(by='gene', ascending=True)["gene"].drop_duplicates()
   with open(fold_path+"/data/genes.json", "w", encoding="UTF8") as file:
     genes.to_json(file, orient="records", force_ascii=False)
+  #
+  df2 = df.explode("monster_list")
+  monters = df2.sort_values(by='monster_list', ascending=False)["monster_list"].drop_duplicates()
+  with open(fold_path+"/data/monsters.json", "w", encoding="UTF8") as file:
+    monters.to_json(file, orient="records", force_ascii=False)
 
-crawler() 
+# crawler() 
 toJson()
