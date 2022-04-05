@@ -1,0 +1,40 @@
+.input-group {
+  .input-group-prepend,
+  .input-group-append {
+    > .input-group-text {
+      min-width: $input-height;
+      background-color: $input-bg;
+    }
+  }
+  .input-group-prepend {
+    .input-group-text {
+      border-top-left-radius: $rounded-pill;
+      border-bottom-left-radius: $rounded-pill;
+      border-right: 0;
+    }
+  }
+
+  .input-group-append {
+    .input-group-text {
+      border-top-right-radius: $rounded-pill;
+      border-bottom-right-radius: $rounded-pill;
+      padding-right: $input-padding-x/2 !important;
+      padding-left: $input-padding-x/2 !important;
+      border-left: 0;
+    }
+  }
+
+  & > input {
+    border-radius: $rounded-pill;
+    border-left-width: 0;
+    border-right-width: 0;
+  }
+
+  :first-child {
+    border-left-width: $input-border-width;
+  }
+
+  :last-child {
+    border-right-width: $input-border-width;
+  }
+}

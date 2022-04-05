@@ -1,0 +1,32 @@
+#app-navbar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+}
+
+#app-navbar-brand {
+  color: $light;
+  background-color: $brown;
+  margin-left: -$navbar-padding-x;
+  padding-left: $navbar-padding-x;
+  padding-right: 1.5em;
+  clip-path: polygon(
+    0 0,
+    calc(100% - 1em) 0,
+    100% 50%,
+    calc(100% - 1em) 100%,
+    0 100%
+  );
+  overflow: hidden;
+  flex: 0 1 10em;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+
+  img {
+    height: 1em;
+    object-fit: cover;
+  }
+}

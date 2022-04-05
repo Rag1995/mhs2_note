@@ -1,0 +1,52 @@
+.pagination {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px !important;
+
+  .page-item {
+    margin-left: 0;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .page-link {
+    border-radius: $border-radius;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .prev-btn,
+  .next-btn,
+  .first-btn,
+  .last-btn {
+    .page-link {
+      @include button-variant($brown, $brown);
+    }
+  }
+  .ellipsis-btn {
+    .page-link {
+      color: $brown;
+      background-color: transparent;
+      border-color: transparent;
+    }
+  }
+  .page-btn {
+    .page-link {
+      @include button-variant-no-focus($meringue);
+      border-radius: $border-radius;
+    }
+  }
+  .disabled .page-link {
+    @include box-shadow(none);
+    opacity: $btn-disabled-opacity;
+  }
+  .active .page-link {
+    @include button-variant-no-focus($brown);
+  }
+}

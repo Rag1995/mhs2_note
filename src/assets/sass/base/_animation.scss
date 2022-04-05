@@ -1,0 +1,11 @@
+.ani-flash {
+  animation: flash 0.5s infinite alternate ease;
+  @keyframes flash {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 0.7;
+    }
+  }
+}

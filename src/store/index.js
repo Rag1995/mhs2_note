@@ -1,29 +1,31 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
+import bingoTable from "./modules/bingoTable";
+import geneModal from "./modules/geneModal";
+import geneSelector from "./modules/geneSelector";
 
-import org_data from "../assets/data/data.json"
-import monsters from "../assets/data/monsters.json"
-import genes from "../assets/data/genes.json"
-
-const data = org_data.map((el, idx) => {
-  return { index: idx, selected: false, ...el }
-})
-
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    data: data,
-    monsters: monsters,
-    genes: genes
+    breakpoint: "sm",
+    load: false,
   },
   mutations: {
-    updateData(state, value) {
-      state.data = value;
+    onLoad(state) {
+      state.load = true;
+    },
+    onReady(state) {
+      state.load = false;
+    },
+    setBreakpoint(state, value) {
+      state.breakpoint = value;
     },
   },
-  actions: {
-  },
+  actions: {},
   modules: {
-  }
-})
+    bingoTable,
+    geneModal,
+    geneSelector,
+  },
+});

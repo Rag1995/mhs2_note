@@ -1,0 +1,50 @@
+.gene-shape {
+  @include gene-shape;
+}
+
+.gene-slot {
+  @include gene-shape;
+  background-color: $brown;
+  position: relative;
+
+  .btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  .gene-slot-insider {
+    @include gene-shape;
+    background-color: $dark;
+    position: absolute;
+    inset: $gene-inside-inset;
+  }
+
+  @each $rank, $data in $gene-rank-style {
+    @include gene-rank($rank, map-get($data, color), map-get($data, inset));
+  }
+
+  @each $type, $image in $gene-type-images {
+    @include gene-type($type, $image);
+  }
+
+  .gene-element {
+    @include gene-shape;
+    position: absolute;
+    inset: $gene-inside-inset;
+
+    &::before {
+      @include gene-shape;
+      position: absolute;
+      inset: $gene-inside-inset;
+      background: linear-gradient(
+        rgba(white, 0.4) 30%,
+        rgba(white, 0.1) 70%,
+        rgba(white, 0.4) 110%
+      );
+      content: "";
+    }
+  }
+}

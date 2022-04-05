@@ -1,0 +1,50 @@
+.gene-kinship-wrap {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+.gene-kinship {
+  position: relative;
+  width: 3rem;
+  aspect-ratio: 1/1;
+  border-width: 3px;
+  border-style: solid;
+  border-color: $brown;
+  border-width: 3px;
+  border-radius: 50%;
+
+  &-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle at 35% 25%,
+      rgba(white, 0.5) 0,
+      transparent 35%,
+      transparent 65%,
+      rgba(black, 1) 100%
+    );
+  }
+
+  &-content {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    .current,
+    .total {
+      flex: 0 0 45%;
+    }
+    span {
+      &:first-child,
+      &:last-child {
+        flex: 0 0 40%;
+      }
+      &:nth-child(2) {
+        flex: 0 0 20%;
+      }
+    }
+  }
+}

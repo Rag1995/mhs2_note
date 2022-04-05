@@ -1,0 +1,20 @@
+@each $color, $value in $theme-colors {
+  .icon-btn {
+    border-radius: 50%;
+    aspect-ratio: 1/1 !important;
+    padding: 0 !important;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    &.btn {
+      height: $btn-font-size * $btn-line-height;
+    }
+    &.btn-lg {
+      height: $btn-font-size-lg * $btn-line-height-lg;
+    }
+    &.btn-sm {
+      height: $btn-font-size-sm * $btn-line-height-sm;
+    }
+  }
+}

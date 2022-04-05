@@ -1,0 +1,190 @@
+.gene-bingo-table {
+  display: grid;
+  gap: $bingo-table-gap;
+  aspect-ratio: 1/1;
+  &-main-bg,
+  &-main {
+    display: grid;
+    gap: inherit;
+    grid-row: b/c;
+    grid-column: b/c;
+  }
+
+  &-line,
+  &-line-slash,
+  &-result {
+    display: grid;
+    gap: inherit;
+    grid-template-rows: inherit;
+    grid-template-columns: inherit;
+    grid-row: a/d;
+    grid-column: a/d;
+  }
+
+  &-line {
+    &-row,
+    &-col,
+    &-slash-LR,
+    &-slash-RL {
+      background-color: $brown;
+      &.element-bingo,
+      &.type-bingo {
+        background-color: $white;
+      }
+    }
+    &-rows {
+      display: grid;
+      gap: inherit;
+      grid-row: b/c;
+      grid-column: b/c;
+      grid-template-columns: 1fr;
+    }
+    &-row {
+      margin: auto $bingo-table-gap;
+      height: $bingo-table-line-width;
+      &.element-bingo {
+        margin-left: -2 * $bingo-table-gap;
+      }
+      &.type-bingo {
+        margin-right: -2 * $bingo-table-gap;
+      }
+    }
+    &-cols {
+      display: grid;
+      gap: inherit;
+      grid-row: b/c;
+      grid-column: b/c;
+      grid-template-rows: 1fr;
+    }
+    &-col {
+      margin: $bingo-table-gap auto;
+      width: $bingo-table-line-width;
+      &.element-bingo {
+        margin-top: -2 * $bingo-table-gap;
+      }
+      &.type-bingo {
+        margin-bottom: -2 * $bingo-table-gap;
+      }
+    }
+    &-slash-LR {
+      transform: rotate(45deg);
+      &.element-bingo {
+        grid-row: a/c;
+        grid-column: a/c;
+      }
+      &.type-bingo {
+        grid-row: b/d;
+        grid-column: b/d;
+      }
+    }
+    &-slash-RL {
+      transform: rotate(-45deg);
+      &.element-bingo {
+        grid-row: b/d;
+        grid-column: a/c;
+      }
+      &.type-bingo {
+        grid-row: a/c;
+        grid-column: b/d;
+      }
+    }
+    &-slash-LR,
+    &-slash-RL {
+      display: grid;
+      gap: inherit;
+      grid-row: b/c;
+      grid-column: b/c;
+      grid-template-rows: 1fr;
+      grid-template-columns: 1fr;
+      margin: auto -10%;
+      height: $bingo-table-line-width;
+      &.element-bingo.type-bingo {
+        grid-row: a/d;
+        grid-column: a/d;
+      }
+    }
+  }
+
+  &-result {
+    @each $name, $image in $bingo-table-result-images {
+      &-icon-#{$name} {
+        @include gene-shape;
+        @include bg-image($image);
+        background-color: $white;
+        background-size: 70%;
+      }
+    }
+    &-top {
+      display: grid;
+      gap: inherit;
+      grid-row: a/b;
+      grid-column: b/c;
+      grid-template-rows: 1fr;
+      > div {
+        margin: 0 auto;
+      }
+    }
+    &-right {
+      display: grid;
+      gap: inherit;
+      grid-row: b/c;
+      grid-column: c/d;
+      grid-template-columns: 1fr;
+      > div {
+        margin: auto 0;
+      }
+    }
+    &-bottom {
+      display: grid;
+      gap: inherit;
+      grid-row: c/d;
+      grid-column: b/c;
+      grid-template-rows: 1fr;
+      > div {
+        margin: 0 auto;
+      }
+    }
+    &-left {
+      display: grid;
+      gap: inherit;
+      grid-row: b/c;
+      grid-column: a/b;
+      grid-template-columns: 1fr;
+      > div {
+        margin: auto 0;
+      }
+    }
+    &-top-right {
+      display: grid;
+      gap: inherit;
+      grid-row: a/b;
+      grid-column: c/d;
+      grid-template-rows: 1fr;
+      grid-template-columns: 1fr;
+    }
+    &-right-bottom {
+      display: grid;
+      gap: inherit;
+      grid-row: c/d;
+      grid-column: c/d;
+      grid-template-rows: 1fr;
+      grid-template-columns: 1fr;
+    }
+    &-bottom-left {
+      display: grid;
+      gap: inherit;
+      grid-row: c/d;
+      grid-column: a/b;
+      grid-template-rows: 1fr;
+      grid-template-columns: 1fr;
+    }
+    &-left-top {
+      display: grid;
+      gap: inherit;
+      grid-row: a/b;
+      grid-column: a/b;
+      grid-template-rows: 1fr;
+      grid-template-columns: 1fr;
+    }
+  }
+}

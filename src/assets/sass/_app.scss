@@ -1,0 +1,34 @@
+// 能夠幫助建構式的 scss 檔案。如變數(variable)、樣式方法(funcion)等
+@import "./utils/variables";
+@import "./utils/mixin";
+
+// 放外部提供的 css，不是自己的都可以放這
+@import "./vendors/bootstrap";
+@import "./vendors/vueSlickCarousel";
+
+// 有時外部提供的 css，會有重新設計的需求，就將這些檔案放在這裡
+@import "./vendors-extensions/bootstrapBtn";
+@import "./vendors-extensions/bootstrapInput";
+@import "./vendors-extensions/bootstrapModal";
+@import "./vendors-extensions/bootstrapPagination";
+@import "./vendors-extensions/vueDraggable";
+@import "./vendors-extensions/vueSlickCarousel";
+
+// 網站基本樣式設定
+@import "./base/animation";
+@import "./base/background";
+@import "./base/border";
+@import "./base/text";
+
+// 組件相關樣式
+@import "./components/appNavbar";
+@import "./components/bingoTable";
+@import "./components/geneKinship";
+@import "./components/geneList";
+@import "./components/geneMenu";
+@import "./components/geneModal";
+@import "./components/geneSlot";
+@import "./components/slickSelector";
+
+// view 相關樣式
+@import "./views/index";

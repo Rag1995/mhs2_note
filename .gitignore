@@ -1,10 +1,12 @@
 .DS_Store
 node_modules
 /dist
+/test
 
 deploy.sh
 
 # local env files
+.env.*
 .env.local
 .env.*.local
 

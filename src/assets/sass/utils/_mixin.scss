@@ -1,0 +1,53 @@
+// 基因插槽形狀
+@mixin gene-shape() {
+  aspect-ratio: 1/1;
+  clip-path: $gene-clip-path;
+  -webkit-clip-path: $gene-clip-path;
+}
+
+@mixin gene-rank($rank, $color, $inset) {
+  .gene-rank-#{$rank} {
+    @include gene-shape;
+    position: absolute;
+    background: conic-gradient(
+      $color,
+      #ffffff,
+      $color,
+      #ffffff,
+      $color,
+      #ffffff,
+      $color
+    );
+    inset: $gene-inside-inset - $inset;
+  }
+}
+
+@mixin bg-image($image) {
+  background-image: $image;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+@mixin gene-type($type, $image) {
+  .gene-type-#{$type} {
+    position: absolute;
+    inset: $gene-inside-inset * 2.5;
+    @include bg-image($image);
+  }
+}
+
+@mixin button-variant-no-focus($color) {
+  @include button-variant(
+    $color,
+    transparent,
+    $color,
+    transparent,
+    $color,
+    transparent
+  );
+  &:focus,
+  &.focus {
+    box-shadow: none !important;
+  }
+}

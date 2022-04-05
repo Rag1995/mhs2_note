@@ -1,0 +1,33 @@
+.slick-selector {
+  .slick-list {
+    @each $color, $value in $theme-colors {
+      .btn-#{$color} {
+        @include button-variant(
+          $meringue,
+          transparent,
+          $value,
+          transparent,
+          $value,
+          transparent
+        );
+        &:focus,
+        &.focus {
+          box-shadow: none !important;
+        }
+        color: $dark;
+      }
+    }
+    .btn {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: center;
+      align-items: center;
+      border-width: 0;
+
+      img {
+        height: 1.2em;
+        object-fit: cover;
+      }
+    }
+  }
+}

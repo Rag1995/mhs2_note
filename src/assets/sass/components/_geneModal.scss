@@ -1,0 +1,38 @@
+.gene-modal {
+  .monster-list {
+    display: grid;
+    gap: 8px;
+    padding: 0.5rem 0;
+
+    @include media-breakpoint-down(md) {
+      grid-template-columns: [a] repeat(1, 1fr) [b];
+    }
+    @include media-breakpoint-up(md) {
+      grid-template-columns: [a] repeat(2, 1fr) [b];
+    }
+    @include media-breakpoint-up(lg) {
+      grid-template-columns: [a] repeat(3, 1fr) [b];
+    }
+
+    &-item-content {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      align-items: center;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+      .monster-icon {
+        height: 2.5em;
+        width: 2.5em;
+      }
+      .monster-egg {
+        height: 2em;
+        width: 2em;
+      }
+    }
+  }
+}
