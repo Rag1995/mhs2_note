@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d20f758"],{b45e:function(e,n,c){"use strict";c.r(n);var t=function(){var e=this,n=e.$createElement,c=e._self._c||n;return c("div",{class:e._class})},s=[],a=c("ade3"),l={props:["value"],computed:{_class:function(){return Object(a["a"])({},"gene-bingo-table-result-icon-".concat(this.value),this.value)}}},u=l,o=c("0c7c"),i=Object(o["a"])(u,t,s,!1,null,null,null);n["default"]=i.exports}}]);
+//# sourceMappingURL=chunk-2d20f758.a6a5fa74.js.map
